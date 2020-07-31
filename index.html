@@ -8,33 +8,51 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="js/mychart.js"></script>  
-    
 
     <title>CrocodileDB</title>
 
     <link href="css/croc.css" rel="stylesheet">
     <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
-      <style>
-    .zc-body {
-      background: #fff;
-    }
+    <script src="js/sql-formatter.min.js"></script>
 
-    .chart--container {
-      height: 100%;
-      width: 100%;
-      min-height: 330px;
-    }
-
-    .zc-ref {
-      display: none;
+    <style>
+    a:hover{
+        text-decoration: none;
     }
     </style>
 
   </head>
 
   <body class="bg-light" >
+
+    <template id="p4Template">
+        <div id="path4" class="form-group row">
+            <label for="qp4" class="col-5 col-form-label text-left croc-config-font">
+                <span class="p4">Query Path 4 </span>
+            </label>
+            <div class="col-3">
+                <input class="form-control", id="qp4_inqp" placeholder="0" disabled></input>
+            </div>
+            <div class="col-3">
+                <input class="form-control", id="qp4_spark" placeholder="0" disabled></input>
+            </div>
+        </div>
+    </template>
+
+    <template id="p5Template">
+            <div id="path5" class="form-group row">
+                <label for="qp5" class="col-5 col-form-label text-left croc-config-font">
+                    <span class="p5">Query Path 5 </span>
+                </label>
+                <div class="col-3">
+                    <input class="form-control", id="qp5_inqp" placeholder="0" disabled></input>
+                </div>
+                <div class="col-3">
+                    <input class="form-control", id="qp5_spark" placeholder="0" disabled></input>
+                </div>
+            </div>
+        </template>
+
       <div class="container croc-headbg">
           <header class="croc-header">
               <div class="row justify-content-between align-items-center">
@@ -52,32 +70,53 @@
           <h3 class="border-bottom border-gray pt-3 pb-2 mb-3">Configuration Panel</h3>
           <form>
               <div class="form-group row">
-                  <label for="query" class="col-2 col-form-label text-center croc-config-font">
+                  <label for="query" class="col-3 col-form-label text-center croc-config-font">
                       SQL Query
                   </label>
                   <div class="col-2">
-                          <select class="form-control", id="query">
+                          <select class="form-control", id="query", onchange="drawTradeoff();showQueryText()">
+                              <option disabled selected value>select a query</option>
+                              <option>Q-1</option>
+                              <option>Q-2</option>
+                              <option>Q-3</option>
+                              <option>Q-4</option>
+                              <option>Q-5</option>
+                              <option>Q-6</option>
+                              <option>Q-7</option>
+                              <option>Q-8</option>
+                              <option>Q-9</option>
+                              <option>Q-10</option>
+                              <option>Q-11</option>
+                              <option>Q-12</option>
+                              <option>Q-13</option>
+                              <option>Q-14</option>
+                              <option>Q-15</option>
+                              <option>Q-16</option>
+                              <option>Q-17</option>
+                              <option>Q-18</option>
+                              <option>Q-19</option>
+                              <option>Q-20</option>
+                              <option>Q-21</option>
+                              <option>Q-22</option>
                               <option>Q-HighCustBal</option>
                           </select>
                   </div>
 
                   <label for="window" class="col-2 col-form-label text-center croc-config-font">Window Size</label>
                   <div class="col-2">
-                          <select class="form-control", id="window">
-                              <option>3 mins</option>
-                          </select>
+                          <input class="form-control", id="window", value="10mins", onchange="drawTradeoff()"></input>
                   </div>
 
-                  <div class="col-4  text-center">
-                      <button type="submit" class="btn config-button btn-custom">Set Configuration</button>
+                  <div class="col-3  text-center">
+                      <button type="button" class="btn config-button btn-custom" onclick="drawQueryPlan();setPathInfo()">Set Configuration</button>
                   </div>
               </div>
 
               <div class="form-group row">
 
-                  <label for="goal" class="col-2 col-form-label text-center croc-config-font">Performance Goal</label>
+                  <label for="goal" class="col-3 col-form-label text-center croc-config-font">Final Work Constraint</label>
                   <div class="col-2">
-                          <input class="form-control", id="goal", placeholder="8s"></input>
+                          <input class="form-control", id="goal", value="0.1"></input>
                   </div>
 
                   <!--label for="trigger" class="col-2 col-form-label text-center croc-config-font">Trigger</label>
@@ -88,9 +127,10 @@
                   </div-->
 
                   <label for="trigger" class="col-4 col-form-label text-center croc-config-font"></label>
-
-                  <div class="col-4  text-center">
-                      <button type="submit" class="btn submit-button btn-custom">Submit Query</button>
+                  <div class="col-3  text-center">
+                      <button id="submitbutton" type="button" class="btn submit-button btn-custom" onclick="startGraph()">
+                          <a href="./runtime.html" style="color:inherit">Submit Query</a>
+                      </button>
                   </div>
               </div>
           </form>
@@ -102,14 +142,11 @@
           <div class="row croc-conf-detail-font">
               <div class="col-4">
                   <div>SQL Query </div>
-                  <canvas class="canvas-border" width="300" height="250">
-                  </canvas>
+                  <textarea disabled class="SQLtextarea" id="queryText">
+                  </textarea>
               </div>
               <div class="col-8">
-                    <div id="myChart" class="chart--container" >
-                    </div>
-                  <!--canvas class="canvas-border" width=720" height="250">
-                  </canvas-->
+                    <div id="tradeoffChart" class="chart--container"></div>
               </div>
           </div>
           <div class="row croc-conf-detail-font">
@@ -117,7 +154,7 @@
                   <div>Pace Configuration of Query Path</div>
                   <div class="row">
                       <div class="col-4">
-                          <form> 
+                          <form id="formPath">
                               
                               <div class="form-group row">
                                   <label for="qp1" class="col-5 col-form-label text-left croc-config-font">
@@ -136,10 +173,10 @@
                                       <span class="p1">Query Path 1 </span>
                                   </label>
                                   <div class="col-3">
-                                      <input class="form-control", id="qp1" placeholder="20" disabled></input>
+                                      <input class="form-control", id="qp1_inqp" placeholder="0" disabled></input>
                                   </div>
                                   <div class="col-3">
-                                      <input class="form-control", id="qp1" placeholder="40" disabled></input>
+                                      <input class="form-control", id="qp1_spark" placeholder="0" disabled></input>
                                   </div>
                               </div>
 
@@ -148,85 +185,40 @@
                                       <span class="p2">Query Path 2 </span>
                                   </label>
                                   <div class="col-3">
-                                      <input class="form-control", id="qp2" placeholder="100" disabled></input>
+                                      <input class="form-control", id="qp2_inqp" placeholder="100" disabled></input>
                                   </div>
                                   <div class="col-3">
-                                      <input class="form-control", id="qp2" placeholder="40" disabled></input>
+                                      <input class="form-control", id="qp2_spark" placeholder="40" disabled></input>
                                   </div>
                               </div>
+                              
                               <div class="form-group row">
                                   <label for="qp3" class="col-5 col-form-label text-left croc-config-font">
                                       <span class="p3">Query Path 3 </span>
                                   </label>
                                   <div class="col-3">
-                                      <input class="form-control", id="qp3" placeholder="2" disabled></input>
+                                      <input class="form-control", id="qp3_inqp" placeholder="2" disabled></input>
                                   </div>
                                   <div class="col-3">
-                                      <input class="form-control", id="qp3" placeholder="40" disabled></input>
+                                      <input class="form-control", id="qp3_spark" placeholder="40" disabled></input>
                                   </div>
                               </div>
                           </form>
                       </div>
                       <div class="col-8">
-                          <canvas class="canvas-border" width="720" height="215">
+                          <canvas id="queryPlan" class="canvas-border" width="720" height="215">
                           </canvas>
                       </div>
                   </div>
               </div>
           </div>
+
       </div>
 
-      <div class="container bg-white rounded shadow-sm">
-          <div class="row croc-conf-detail-font">
-              <div class="col-6 border-right border-gray">
-                  <h3 class="border-bottom border-gray pt-3 pb-2 mb-3 ">
-                      InQP Runtime Monitor
-                  </h3>
-                  <div class="row">
-                      <div class="col-4">
-                          <div>Results</div>
-                          <canvas class="canvas-border" width="150" height="150"></canvas>
-                      </div>
-                      <div class="col-8">
-                          <div>CPU Trace</div>
-                          <canvas class="canvas-border" width="350" height="150">
-                          </canvas>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-12">
-                          <div>Query Path Statistics</div>
-                          <canvas class="canvas-border" width="540" height="200">
-                          </canvas>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-6">
-                  <h3 class="border-bottom border-gray pt-3 pb-2 mb-3 ">
-                      Spark Runtime Monitor
-                  </h3>
-                  <div class="row">
-                      <div class="col-4">
-                          <div>Results</div>
-                          <canvas class="canvas-border" width="150" height="150"></canvas>
-                      </div>
-                      <div class="col-8">
-                          <div>CPU Trace</div>
-                          <canvas class="canvas-border" width="350" height="150">
-                          </canvas>
-                      </div>
-                  </div>
-                  <div class="row">
-                      <div class="col-12">
-                          <div>Query Path Statistics</div>
-                          <canvas class="canvas-border" width="540" height="200">
-                          </canvas>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-
+    <script src="js/tradeoffChart.js"></script> 
+    <script src="js/cpuChart.js"></script>
+    <script src="js/queryText.js"></script>
+    <script src="js/loadAndDrawPlan.js"></script>
 
 
     <!-- Optional JavaScript -->

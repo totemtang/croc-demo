@@ -1,0 +1,5 @@
+Select c_custkey, c_acctbal
+From Customer
+where Customer.c_acctbal >
+  (Select avg(c_acctbal)
+   From Customer);

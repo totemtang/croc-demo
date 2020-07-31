@@ -1,0 +1,16 @@
+select
+	sum(l_extendedprice) / 7.0 as avg_yearly
+from
+	lineitem,
+	part, 
+    (
+        select l_partkey as agg_partkey , 0.2 * avg(l_quantity) as agg_avg
+        from lineitem
+        group by l_partkey
+    ) as agg_l 
+where
+	p_partkey = l_partkey
+  and p_partkey = agg_partkey
+  and l_quantity < agg_avg
+	and p_brand = 'Brand#23'
+	and p_container = 'MED BOX';

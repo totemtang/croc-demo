@@ -1,8 +1,8 @@
 /* stylelint-disable selector-list-comma-newline-after */
 
 .croc-headbg {
-    /*background: #800000*/
-    background: #292b2c
+  /*background: #800000*/
+  background: #292b2c;
 }
 
 .croc-header {
@@ -24,15 +24,15 @@
 }
 
 .btn-custom {
-    width: 50mm
+  width: 50mm;
 }
 
 .panel-bg {
-    background: #ffffff
+  background: #ffffff;
 }
 
 .canvas-border {
-    border: 0.1px solid #D3D3D3;
+  border: 0.1px solid #d3d3d3;
 }
 
 .croc-conf-detail-font {
@@ -40,36 +40,43 @@
   font-size: 1.5rem;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: "Playfair Display", Georgia, "Times New Roman", serif;
 }
 
 .p1 {
-    color: #C55A11
+  color: #4472c4;
 }
 
 .p2 {
-    color: #4472C4
+  color: #c55a11;
 }
 
 .p3 {
-    color: #548235 
+  color: #548235;
 }
 
 .p4 {
-    color: #eea990
+  color: #7c7c7c;
 }
 
 .p5 {
-    color: #f6e0b5
+  color: #c61096;
 }
 
 /* for button */
 .config-button {
-    background-color: #e7e7e7; color: black
+  background-color: #e7e7e7;
+  color: black;
 }
 .submit-button {
-    background-color: #e7e7e7; color: #800000
+  background-color: #e7e7e7;
+  color: #800000;
 }
 
 /* for toggle */
@@ -80,7 +87,7 @@ h1, h2, h3, h4, h5, h6 {
   height: 34px;
 }
 
-.switch input { 
+.switch input {
   opacity: 0;
   width: 0;
   height: 0;
@@ -94,8 +101,8 @@ h1, h2, h3, h4, h5, h6 {
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
@@ -106,16 +113,16 @@ h1, h2, h3, h4, h5, h6 {
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
-  background-color: #2196F3;
+  background-color: #2196f3;
 }
 
 input:focus + .slider {
-  box-shadow: 0 0 1px #2196F3;
+  box-shadow: 0 0 1px #2196f3;
 }
 
 input:checked + .slider:before {
@@ -133,3 +140,30 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+/* zingchart*/
+
+.zc-body {
+  background: #fff;
+}
+
+.chart--container {
+  height: 100%;
+  width: 100%;
+  min-height: 330px;
+}
+
+.chart--cpu {
+  height: 100%;
+  width: 100%;
+  min-height: 180px;
+}
+
+.zc-ref {
+  display: none;
+}
+
+.SQLtextarea {
+  font-size: 18px;
+  width: 300px;
+  height: 250px;
+}
